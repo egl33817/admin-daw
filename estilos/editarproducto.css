@@ -1,0 +1,25 @@
+.form-editar-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.form-editar-campos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-editar-producto-campos-izda,
+.form-editar-producto-campos-dcha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-editar-producto-campos-dcha
+{
+    margin-left: 2rem;
+    justify-content: center;
+}
