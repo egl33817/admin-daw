@@ -20,7 +20,7 @@ selectCategorias.addEventListener("change", (evento) => {
     console.log("Categoría: " + evento.currentTarget.value)
 
     // Ejecutamos la consulta a la base de datos a través de PHP.
-    fetch("../controlador/listasubcategorias.php?idcat=" + evento.currentTarget.value)
+    fetch("../controladores/listasubcategorias.php?idcat=" + evento.currentTarget.value)
         .then(respuesta => respuesta.json())
         .then(datos => rellenarSubcategorias(selectSubcategorias, datos))
         .catch(error => console.log("Error: " + error))
