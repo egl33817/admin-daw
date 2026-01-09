@@ -1,0 +1,25 @@
+.form-crear-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.form-crear-campos {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form-crear-producto-campos-izda,
+.form-crear-producto-campos-dcha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-crear-producto-campos-dcha
+{
+    margin-left: 2rem;
+    justify-content: center;
+}

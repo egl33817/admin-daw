@@ -1,0 +1,57 @@
+.form-select,
+input,
+.custom-file-upload {
+    width: 450px;
+    font-size: 1.1rem;
+    border-radius: .5rem;
+    padding: 1rem;
+}
+
+.form-select {
+    background-color: var(--color-gris-oscuro);
+    color: var(--color-blanco);
+    border: none;
+    cursor: pointer;
+    margin: 1rem;
+}
+
+.form-select {
+    outline: none;
+    box-shadow: 0 0 0 .5rem (--color-gris-claro);
+}
+
+input {
+    margin: 1rem 0;
+}
+
+.form-botones {
+    margin: 1.5rem 0;
+}
+
+.btn-form-submit,
+.btn-form-reset {
+    padding: 1rem;
+    margin: 0 .5rem;
+    border: none;
+}
+
+.btn-form-submit {
+    background-color: var(--color-verde-oscuro);
+}
+
+.btn-form-reset {
+    background-color: var(--color-rojo);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    margin: .5rem 0;
+    cursor: pointer;
+    background-color: var(--color-gris-oscuro);
+    color: var(--color-blanco);
+}
