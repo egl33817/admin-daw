@@ -1,17 +1,10 @@
 <?php
 
 require "../modelo/conexion.php";
+require "helpers.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
-    echo "Categoría: " . $_POST["categoria"] . "<br>";
-    echo "Subcategoría: " . $_POST["subcategoria"] . "<br>";
-    echo "Descripción: " . $_POST["descripcion"] . "<br>";
-    echo "Formato: " . $_POST["formato"] . "<br>";
-    echo "Precio: " . $_POST["precio"] . "<br>";
-    echo "Descuento: " . $_POST["descuento"] . "<br>";
-    echo "Fecha de alta: " . $_POST["fechadealta"] . "<br>";
-
     // Directorio donde se guardarán las imágenes.
     $directorio_destino_imagen = "../imagenes/productos/";
 
@@ -55,35 +48,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
                 if ($conexion->query($consulta) == true)
                 {
-                    echo "El producto ha sido dado de alta correctamente en la base de datos.";
+                    echo altaDeProductoCorrecta();
                 }
                 else
                 {
-                    echo "Error en la consulta SQL: $consulta <br> $conexion->error";
+                    echo errorAlCrearProducto($conexion->error);
                 }
-                                     
-                echo "<p>Imagen subida exitosamente como: $nombre_archivo</p>";
-                // Mostramos la imagen cargada.
-                echo "<img src='$ruta_archivo' alt='Imagen subida' width='350'>";
-
-                header("Location: ../index.php");
             }
             else
             {
-                echo "Error al mover el archivo.";
+                echo errorAlCrearProducto("Error al mover el archivo");
             }
         }
         else
         {
-            echo "El archivo no es una imagen válida.";
+            echo errorAlCrearProducto("El archivo no es una imagen válida");
         }
     }
     else
     {
-        echo "No se seleccionó ninguna imagen.";
+        echo errorAlCrearProducto("No se seleccionó ninguna imagen");
     }
 }
 else
 {
-    echo "Acceso al script altaproducto.php no permitido.";
+    echo errorAlCrearProducto("Acceso al script altaproducto.php no permitido");
 }
