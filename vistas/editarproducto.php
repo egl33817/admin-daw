@@ -44,7 +44,7 @@
             }
         ?>
 
-        <form class="form-editar-producto" action="actualizarproducto.php" method="post" enctype="multipart/form-data">
+        <form class="form-editar-producto" action="../controladores/actualizaproducto.php" method="post" enctype="multipart/form-data">
             <div class="form-editar-campos">
                 <div class="form-editar-producto-campos-izda">
                     <!-- ID del producto -->
