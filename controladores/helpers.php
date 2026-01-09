@@ -110,7 +110,7 @@
 <?php
     }
 
-    function errorAlActualizar($consulta, $mensajeDeError)
+    function errorAlActualizar($mensajeDeError)
     {
 ?>
         <!DOCTYPE html>
@@ -129,7 +129,7 @@
                 Swal.fire({
                     icon: "warning",
                     title: "Error al actualizar",
-                    text: "El producto no ha sido actualizado",
+                    text: <?= $mensajeDeError ?>,
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Volver al listado",

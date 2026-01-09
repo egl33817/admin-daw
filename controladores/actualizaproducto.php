@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
         else
         {
-            echo errorAlActualizar($consulta, $conexion->error);
+            echo errorAlActualizar($conexion->error);
         }
         
         // Directorio donde se guardarán las imágenes.
@@ -76,17 +76,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 }
                 else
                 {
-                    echo "Error al guardar el archivo de imagen en la carpeta correspondiente.";
+                    echo errorAlActualizar("Error al guardar el archivo de imagen");
                 }
             }
             else
             {
-                echo "El archivo no es una imagen válida.";
+                echo errorAlActualizar("El archivo no es una imagen válida");
             }
         }
         else
         {
-            echo "Error al mover el archivo.";
+            echo errorAlActualizar("Error al mover el archivo");
         }
 
         //die("Archivo: {$nombre_archivo} - Hay cambio de imagen - Consulta: {$consulta}");
@@ -94,5 +94,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 }
 else
 {
-    echo "Acceso al script actualizaproducto.php no permitido.";
+    echo errorAlActualizar("Acceso no permitido al script");
 }
