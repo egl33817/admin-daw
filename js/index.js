@@ -20,8 +20,14 @@ function eliminarProducto(idProducto)
         {
             // Borrarmos el producto de la base de datos.
             fetch("../controladores/eliminaproducto.php?idproducto=" + idProducto)
-                .catch(error => console.log("Error: " + error))
-
+                .catch(error => {
+                        Swal.fire({
+                            title: "Error",
+                            text: error,
+                            icon: "error"
+                        });
+            })
+                    
             // Mostramos mensaje confirmando el borrado.
             Swal.fire({
                 title: "¡Eliminado!",
