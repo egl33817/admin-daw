@@ -1,6 +1,6 @@
 function crearProducto()
 {
-    location.href = './controlador/crearproducto.php'
+    location.href = './vistas/crearproducto.php'
 }
 
 function eliminarProducto(idProducto)
@@ -19,7 +19,7 @@ function eliminarProducto(idProducto)
         if (result.isConfirmed) 
         {
             // Borrarmos el producto de la base de datos.
-            fetch("../controlador/eliminarproducto.php?idproducto=" + idProducto)
+            fetch("../controladores/eliminarproducto.php?idproducto=" + idProducto)
                 .catch(error => console.log("Error: " + error))
 
             // Mostramos mensaje confirmando el borrado.
@@ -37,5 +37,5 @@ function eliminarProducto(idProducto)
 
 function editarProducto(idProducto)
 {
-    location.href = "../controlador/editarproducto.php?idproducto=" + idProducto
+    location.href = "./vistas/editarproducto.php?idproducto=" + idProducto
 }
