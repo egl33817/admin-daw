@@ -75,3 +75,71 @@
 
         die(strcmp($datos["imagen"], $nombre_archivo) == 0); //? false : true);
     }
+
+    function actualizacionCorrecta()
+    {
+?>
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>CRUD Productos</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+            <link rel="stylesheet" href="../estilos/general.css" class="stylesheet">
+            <link rel="stylesheet" href="../estilos/index.css" class="stylesheet">
+        </head>
+        <body>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "Actualización correcta",
+                    text: "El producto ha sido actualizado",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Volver al listado",
+                    confirmButtonColor: "#3085d6"
+                }).then((result) => {
+                    location.href = "../index.php"
+                });
+            </script>
+        </body>
+        </html>
+        
+<?php
+    }
+
+    function errorAlActualizar($consulta, $mensajeDeError)
+    {
+?>
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>CRUD Productos</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+            <link rel="stylesheet" href="../estilos/general.css" class="stylesheet">
+            <link rel="stylesheet" href="../estilos/index.css" class="stylesheet">
+        </head>
+        <body>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                Swal.fire({
+                    icon: "warning",
+                    title: "Error al actualizar",
+                    text: "El producto no ha sido actualizado",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: "Volver al listado",
+                    confirmButtonColor: "#3085d6"
+                }).then((result) => {
+                    location.href = "../index.php"
+                });
+            </script>
+        </body>
+        </html>
+        
+<?php      
+    }

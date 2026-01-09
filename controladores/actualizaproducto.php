@@ -22,11 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         // Hacemos la actualización de los datos.
         if ($conexion->query($consulta) == true)
         {
-            echo "El producto se ha actualizado correctamente.";
+            echo actualizacionCorrecta();
         }
         else
         {
-            echo "Error en la consulta SQL: $consulta <br> $conexion->error";
+            echo errorAlActualizar($consulta, $conexion->error);
         }
 
         //die("Archivo: {$nombre_archivo} - No hay cambio de imagen - Consulta: {$consulta}");
@@ -46,11 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         // Hacemos la actualización de los datos.
         if ($conexion->query($consulta) == true)
         {
-            echo "El producto se ha actualizado correctamente.";
+            echo actualizacionCorrecta();
         }
         else
         {
-            echo "Error en la consulta SQL: $consulta <br> $conexion->error";
+            echo errorAlActualizar($consulta, $conexion->error);
         }
         
         // Directorio donde se guardarán las imágenes.
@@ -70,9 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 // Mover el archivo de imagen al directorio destino.
                 if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_archivo))
                 {
-                    echo "<p>Imagen subida exitosamente como: $nombre_archivo</p>";
+                    //echo "<p>Imagen subida exitosamente como: $nombre_archivo</p>";
                     // Mostramos la imagen cargada.
-                    echo "<img src='$ruta_archivo' alt='Imagen subida' width='350'>";
+                    //echo "<img src='$ruta_archivo' alt='Imagen subida' width='350'>";
                 }
                 else
                 {
