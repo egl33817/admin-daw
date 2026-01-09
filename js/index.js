@@ -19,7 +19,7 @@ function eliminarProducto(idProducto)
         if (result.isConfirmed) 
         {
             // Borrarmos el producto de la base de datos.
-            fetch("../controladores/eliminarproducto.php?idproducto=" + idProducto)
+            fetch("../controladores/eliminaproducto.php?idproducto=" + idProducto)
                 .catch(error => console.log("Error: " + error))
 
             // Mostramos mensaje confirmando el borrado.
