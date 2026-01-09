@@ -1,0 +1,11 @@
+# Ignorar las configuraciones internas de VSCode.
+.vscode/
+
+# Ignorar archivos de sistema operativo de Mac y Windows.
+.DS_Store
+Thumbs.db
+
+# Ignorar la carpeta que contiene las imágenes de los productos.
+# De momento se dejan para que suban a producción automáticamente desde GitHub.
+#imagenes/
+#imgproductos/
