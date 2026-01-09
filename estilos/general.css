@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --color-principal: #005C53;
+    --color-principal-claro: #9FC131;
+    --color-principal-oscuro: #042940;
+    --color-lima: #DBF227;
+    --color-verde-intenso: #A6BC09;
+    --color-verde-oscuro: #005148;
+    --color-beige: #D6D58E; /* #EADFDB;*/
+    --color-blanco-crema: #ececec;
+    --color-gris: #e2e2e2;
+    --color-gris-claro: #CACACA;
+    --color-gris: #E6E6E6;
+    --color-gris-oscuro: #878787;
+    --color-rojo: #de0808;
+    --color-blanco: #FFFFFF;
+    --color-negro: #000000;
+
+    --color-azul-oscuro: #00747C;
+    --color-azul-claro: #00BBC9;
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rubik', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+input,
+textarea {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.contenedor-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titulo {
+    margin: 3rem 0 3rem 0;
+    text-align: center;
+}
+
+.subtitulo {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.btn {
+    font-size: 1.1rem;
+    border-radius: .5rem;
+    border: none;
+    color: var(--color-blanco);
+    cursor: pointer;
+}

@@ -1,0 +1,55 @@
+button {
+    background-color: transparent;
+    border: none;
+    padding: .75rem;
+    font-size: 1.5rem;
+}
+
+.crear-producto {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-crear-producto {
+    margin-right: 5rem;
+    background-color: var(--color-principal-oscuro);
+}
+
+table {
+    margin: 2rem 5rem;
+    border-collapse: collapse;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: var(--color-blanco-crema);
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--color-blanco);
+}
+
+th,
+td {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 1rem;
+}
+
+th {
+    background-color: var(--color-azul-oscuro);
+    color: var(--color-blanco);
+    font-weight: 500;
+    padding: 1rem 0;
+}
+
+td {
+    padding: 0 1rem;
+}
+
+.btn-editar {
+    color: var(--color-principal-oscuro);
+}
+
+.btn-eliminar {
+    color: var(--color-rojo);
+}
