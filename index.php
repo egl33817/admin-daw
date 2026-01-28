@@ -41,7 +41,6 @@
             {
                 // Si todo ha ido bien, convertimos la respuesta JSON en un array asociativo.
                 $listadoProductos = json_decode($respuestaAPI, true);
-                var_dump($listadoProductos);
             }
         ?>
 
@@ -59,33 +58,29 @@
             </thead>
             <tbody>
                 <?php
-
-                    while ($datos = $respuesta->fetch_assoc()) 
+                    foreach ($listadoProductos as $datosProducto)
                     {
-                        ?>
+                ?>
                         <tr>
-                            <td><?= $datos["categoria"] ?></td>
-                            <td><?= $datos["subcategoria"] ?></td>
-                            <td><?= $datos["descripcion"] ?></td>
-                            <td><?= $datos["formato"] ?></td>
-                            <td><?= $datos["precio"] ?> €</td>
-                            <td><?= $datos["descuento"] ?> %</td>
+                            <td><?= $datosProducto["categoria"] ?></td>
+                            <td><?= $datosProducto["subcategoria"] ?></td>
+                            <td><?= $datosProducto["descripcion"] ?></td>
+                            <td><?= $datosProducto["formato"] ?></td>
+                            <td><?= $datosProducto["precio"] ?> €</td>
+                            <td><?= $datosProducto["descuento"] ?> %</td>
                             <td colspan="2" class="acciones">
                                 <button class="btn btn-editar"
-                                        onclick="editarProducto(<?= $datos['idproducto'] ?>);">
+                                        onclick="editarProducto(<?= $datosProducto['idproducto'] ?>);">
                                     <i class="bi bi-pencil-square"></i></i>
                                 </button>
                                 <button class="btn btn-eliminar" 
-                                        onclick="eliminarProducto(<?= $datos['idproducto'] ?>);">
+                                        onclick="eliminarProducto(<?= $datosProducto['idproducto'] ?>);">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
                 <?php
-                    
                     }
-
-                    $conexion->close();
                 ?>
             </tbody>
         </table>
