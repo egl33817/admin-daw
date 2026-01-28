@@ -19,16 +19,29 @@
         </div>
         
         <?php
-            require "./modelo/conexion.php";
+            // Iniciamos la sesión cURL.
+            $sesion_cURL = curl_init();
 
-            $consulta = "SELECT a.idproducto, c.descripcion as categoria, b.descripcion as subcategoria, 
-                                a.descripcion, a.formato, a.precio, a.descuento, a.fechadealta
-                        FROM productos a, subcategorias b, categorias c
-                        WHERE (a.idsubcategoria = b.idsubcategoria) AND (b.idcategoria = c.idcategoria)
-                        ORDER BY a.idproducto;";
+            // Configuración de cURL.
+            // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
+            curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/productos/");
+            // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
+            curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
 
-            $respuesta = $conexion->query($consulta);
+            // Ejecutamos la consulta al endpoint de la API.
+            $respuestaAPI = curl_exec($sesion_cURL);
 
+            // Comprobamos si ha habido algún error.
+            if (curl_errno($sesion_cURL))
+            {
+                // Si ha habido un error, lo mostramos por pantalla.
+                echo curl_error($sesion_cURL);
+            }
+            else
+            {
+                // Si todo ha ido bien, convertimos la respuesta JSON en un array asociativo.
+                $listadoProductos = json_decode($respuestaAPI, true);
+            }
         ?>
 
         <table class="tabla-productos">
@@ -45,33 +58,29 @@
             </thead>
             <tbody>
                 <?php
-
-                    while ($datos = $respuesta->fetch_assoc()) 
+                    foreach ($listadoProductos as $datosProducto)
                     {
-                        ?>
+                ?>
                         <tr>
-                            <td><?= $datos["categoria"] ?></td>
-                            <td><?= $datos["subcategoria"] ?></td>
-                            <td><?= $datos["descripcion"] ?></td>
-                            <td><?= $datos["formato"] ?></td>
-                            <td><?= $datos["precio"] ?> €</td>
-                            <td><?= $datos["descuento"] ?> %</td>
+                            <td><?= $datosProducto["categoria"] ?></td>
+                            <td><?= $datosProducto["subcategoria"] ?></td>
+                            <td><?= $datosProducto["descripcion"] ?></td>
+                            <td><?= $datosProducto["formato"] ?></td>
+                            <td><?= $datosProducto["precio"] ?> €</td>
+                            <td><?= $datosProducto["descuento"] ?> %</td>
                             <td colspan="2" class="acciones">
                                 <button class="btn btn-editar"
-                                        onclick="editarProducto(<?= $datos['idproducto'] ?>);">
+                                        onclick="editarProducto(<?= $datosProducto['idproducto'] ?>);">
                                     <i class="bi bi-pencil-square"></i></i>
                                 </button>
                                 <button class="btn btn-eliminar" 
-                                        onclick="eliminarProducto(<?= $datos['idproducto'] ?>);">
+                                        onclick="eliminarProducto(<?= $datosProducto['idproducto'] ?>);">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
                         </tr>
                 <?php
-                    
                     }
-
-                    $conexion->close();
                 ?>
             </tbody>
         </table>
