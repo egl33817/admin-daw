@@ -24,7 +24,7 @@
 
             // Configuración de cURL.
             // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
-            curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/productos/");
+            curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/productos");
             // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
             curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
 
