@@ -46,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
     curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
     
-
     // Ejecutamos la consulta al endpoint de la API.
     $respuestaAPI = curl_exec($sesion_cURL);
 
@@ -65,9 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $dirTemporal = "../temporal/";
         $rutaTemporal = $dirTemporal . $nombreFicheroImagen;
 
-        //echo "Nombre del fichero: " . $nombreFicheroImagen . "<br>";
-        //echo "Ruta temporal: " . $rutaTemporal;
-
         if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaTemporal))
         {
             // Creamos el objeto JSON que almacenará los datos del fichero de imagen.
@@ -76,20 +72,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 "datosDelFichero" => base64_encode(file_get_contents($rutaTemporal))
             ];
 
-            echo "Nombre del fichero: " . $nombreFicheroImagen . "<br>";
-            echo "Datos del fichero: " . base64_encode(file_get_contents($rutaTemporal)) . "<br>";
             $datosURL = http_build_query($datosFichero);
             
-            // Ejecutamos la carga del fichero en el servidor a través de la API.
+            // Ejecutamos la carga del fichero en el servidor a través de la API con un archivo creado al efecto.
             curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/cargarimagen.php");
+            // Sin cabeceras.
             curl_setopt($sesion_cURL, CURLOPT_HEADER, false);
+            // Especificamos que se trata de una petición POST.
             curl_setopt($sesion_cURL, CURLOPT_POST, true);
+            // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
             curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
+            // Metemos los datos del producto en el body de la petición.
             curl_setopt($sesion_cURL, CURLOPT_POSTFIELDS, $datosURL);
 
             $respuestaAPI = curl_exec($sesion_cURL);
-
-            echo $respuestaAPI;
 
             unlink($rutaTemporal);
 
