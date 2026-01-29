@@ -22,19 +22,35 @@
                     <select name="categoria" id="categorias" class="form-select" required>
                         <option value="0">Elige una categoría de producto...</option>
                         <?php
-                            require "../modelo/conexion.php";
-                            
-                            $consulta = "SELECT idcategoria, descripcion
-                                        FROM categorias
-                                        ORDER BY idcategoria;";
+                            // Iniciamos la sesión cURL.
+                            $sesion_cURL = curl_init();
 
-                            $respuesta = $conexion->query($consulta);
+                            // Configuración de cURL.
+                            // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
+                            curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/categorias");
+                            // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
+                            curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
 
-                            while ($datos = $respuesta->fetch_assoc()) 
+                            // Ejecutamos la consulta al endpoint de la API.
+                            $respuestaAPI = curl_exec($sesion_cURL);
+
+                            // Comprobamos si ha habido algún error.
+                            if (curl_errno($sesion_cURL))
+                            {
+                                // Si ha habido un error, lo mostramos por pantalla.
+                                echo curl_error($sesion_cURL);
+                            }
+                            else
+                            {
+                                // Si todo ha ido bien, convertimos la respuesta JSON en un array asociativo.
+                                $listadoCategorías = json_decode($respuestaAPI, true);
+                            }
+
+                            foreach ($listadoCategorías as $categoria)
                             {
                                 ?>
-                                <option value=<?php echo $datos['idcategoria']; ?>>
-                                    <?= $datos["descripcion"]; ?>
+                                <option value=<?php echo $categoria['idcategoria']; ?>>
+                                    <?= $categoria["descripcion"]; ?>
                                 </option>
                         <?php
                             }

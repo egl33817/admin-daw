@@ -4,12 +4,14 @@ const selectSubcategorias = document.getElementById("subcategorias")
 
 function rellenarSubcategorias(select, arrayDatos)
 {
+    console.log(arrayDatos)
+
     select.innerHTML = "<option value='0'>Elige una subcategoría de producto...</option>"
 
     arrayDatos.forEach(subcategoria => {
         const opcion = document.createElement("option")
-        opcion.value = subcategoria[0]
-        opcion.innerText = subcategoria[1]
+        opcion.value = subcategoria["idsubcategoria"]
+        opcion.innerText = subcategoria["descripcion"]
         select.appendChild(opcion)
     })
 
@@ -18,9 +20,8 @@ function rellenarSubcategorias(select, arrayDatos)
 
 selectCategorias.addEventListener("change", (evento) => {
     console.log("Categoría: " + evento.currentTarget.value)
-
-    // Ejecutamos la consulta a la base de datos a través de PHP.
-    fetch("../controladores/listasubcategorias.php?idcat=" + evento.currentTarget.value)
+    
+    fetch("http://localhost:8080/subcategorias/" + evento.currentTarget.value)
         .then(respuesta => respuesta.json())
         .then(datos => rellenarSubcategorias(selectSubcategorias, datos))
         .catch(error => console.log("Error: " + error))
