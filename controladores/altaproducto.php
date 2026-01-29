@@ -5,18 +5,18 @@ require "helpers.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
     // Nombre del archivo de imagen del producto.
-    $nombre_archivo = "";
+    $nombreFicheroImagen = "";
     
     // Comprobamos si se seleccionó un archivo de imagen para el producto.
     if (isset($_FILES["imagen"]))
     {
         // En caso afirmativo, recuperamos su nombre.
-        $nombre_archivo = basename($_FILES["imagen"]["name"]);
+        $nombreFicheroImagen = basename($_FILES["imagen"]["name"]);
     }
     else
     {
         // En caso contrario, dejamos la imagen por defecto.
-        $nombre_archivo = "sinimagen.png";
+        $nombreFicheroImagen = "sinimagen.png";
     }
 
     // Guardamos los datos del producto en la base de datos a través de la API REST.
@@ -24,15 +24,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $sesion_cURL = curl_init();
 
     // Creamos el objeto JSON que almacenará los datos del producto.
-    $datosProducto = array(
+    $datosProducto = [
         "idSubcategoria" => $_POST["subcategoria"],
         "descripcion" => $_POST["descripcion"],
         "formato" => $_POST["formato"],
         "precio" => $_POST["precio"],
         "descuento" => $_POST["descuento"],
         "fechadealta" => $_POST["fechadealta"],
-        "imagen" => $nombre_archivo
-    );
+        "imagen" => $nombreFicheroImagen
+    ];
 
     $datosBody = json_encode($datosProducto);
 
@@ -40,11 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
     curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/productos");
     // Especificamos que se trata de una petición POST.
-    curl_setopt($sesion_cURL, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($sesion_cURL, CURLOPT_POST, true);
     // Metemos los datos del producto en el body de la petición.
     curl_setopt($sesion_cURL, CURLOPT_POSTFIELDS, $datosBody);
     // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
     curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
+    
 
     // Ejecutamos la consulta al endpoint de la API.
     $respuestaAPI = curl_exec($sesion_cURL);
@@ -58,8 +59,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
     else
     {
-        // Si todo ha ido bien, mostramos el mensaje adecuado.
-        echo altaDeProductoCorrecta();
+        // Si todo ha ido bien, subimos el archivo de imagen.
+        //
+        // Colocamos el archivo de imagen en una ubicación temporal.
+        $dirTemporal = "../temporal/";
+        $rutaTemporal = $dirTemporal . $nombreFicheroImagen;
+
+        //echo "Nombre del fichero: " . $nombreFicheroImagen . "<br>";
+        //echo "Ruta temporal: " . $rutaTemporal;
+
+        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaTemporal))
+        {
+            // Creamos el objeto JSON que almacenará los datos del fichero de imagen.
+            $datosFichero = [
+                "nombreDelFichero" => basename($nombreFicheroImagen),
+                "datosDelFichero" => base64_encode(file_get_contents($rutaTemporal))
+            ];
+
+            echo "Nombre del fichero: " . $nombreFicheroImagen . "<br>";
+            echo "Datos del fichero: " . base64_encode(file_get_contents($rutaTemporal)) . "<br>";
+            $datosURL = http_build_query($datosFichero);
+            
+            // Ejecutamos la carga del fichero en el servidor a través de la API.
+            curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/cargarimagen.php");
+            curl_setopt($sesion_cURL, CURLOPT_HEADER, false);
+            curl_setopt($sesion_cURL, CURLOPT_POST, true);
+            curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($sesion_cURL, CURLOPT_POSTFIELDS, $datosURL);
+
+            $respuestaAPI = curl_exec($sesion_cURL);
+
+            echo $respuestaAPI;
+
+            unlink($rutaTemporal);
+
+            echo altaDeProductoCorrecta();
+        }
+        else
+        {
+            echo "Error al trabajar con el archivo en admin";
+        }
     }
 }
 else

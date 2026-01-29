@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-crear-producto-campos-dcha">
                     <!-- Imagen del producto (aceptamos todo tipo de formatos de archivo de imagen) -->
-                    <?php $ruta_archivo = "../imagenes/sinImagen.png"; ?>
+                    <?php $ruta_archivo = "../imagenes/sinimagen.png"; ?>
                     <img id="imagencargada" src=<?= $ruta_archivo ?> alt='Imagen subida' width='350'>
                     <label for="imagen" class="custom-file-upload">Haz clic aquí para elegir la imagen del producto...</label>
                     <input type="file" id="imagen" name="imagen" accept="image/*" 
