@@ -129,7 +129,7 @@
                 Swal.fire({
                     icon: "error",
                     title: "Error al dar de alta",
-                    text: <?= $mensajeDeError ?>,
+                    text: "<?= $mensajeDeError ?>",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Volver al listado",
@@ -197,7 +197,7 @@
                 Swal.fire({
                     icon: "warning",
                     title: "Error al actualizar",
-                    text: <?= $mensajeDeError ?>,
+                    text: "<?= $mensajeDeError ?>",
                     showDenyButton: false,
                     showCancelButton: false,
                     confirmButtonText: "Volver al listado",
