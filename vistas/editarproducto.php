@@ -53,7 +53,7 @@
             <div class="form-editar-campos">
                 <div class="form-editar-producto-campos-izda">
                     <!-- ID del producto -->
-                    <input type="hidden" name="idproducto" value="<?= $idproducto ?>">
+                    <input type="hidden" name="idproducto" value="<?= $idProducto ?>">
                     <!-- Categoría -->    
                     <select name="categoria" id="categorias" class="form-select" required>
                         <?php
@@ -79,6 +79,8 @@
                     <!-- Descuento -->
                     <input type="text" name="descuento" placeholder="Descuento (%)" maxlength="2" 
                             value="<?= $datosProducto["descuento"]; ?>" required>
+                    <!-- Nombre archivo de imagen original -->
+                    <input type="hidden" name="imagenOriginal" value="<?= $datosProducto["imagen"] ?>">
                 </div>
                 <div class="form-editar-producto-campos-dcha">
                     <!-- Imagen actual del producto (aceptamos todo tipo de formatos de archivo de imagen) -->
