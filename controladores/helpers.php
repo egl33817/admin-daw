@@ -1,62 +1,97 @@
 <?php
 
-    function listadoCategorias($idCategoria, $conexion)
+    function listadoCategorias($idCategoria)
     {
-        $consulta = "SELECT idcategoria, descripcion
-                     FROM categorias
-                     ORDER BY idcategoria;";
+        // Iniciamos la sesión cURL.
+        $sesion_cURL = curl_init();
 
-        $respuesta = $conexion->query($consulta);
+        // Configuración de cURL.
+        // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
+        curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/categorias");
+        // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
+        curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
 
-        while ($datos = $respuesta->fetch_assoc()) 
+        // Ejecutamos la consulta al endpoint de la API.
+        $respuestaAPI = curl_exec($sesion_cURL);
+
+        // Comprobamos si ha habido algún error.
+        if (curl_errno($sesion_cURL))
         {
-            if ($datos["idcategoria"] == $idCategoria)
+            // Si ha habido un error, lo mostramos por pantalla.
+            echo curl_error($sesion_cURL);
+        }
+        else
+        {
+            // Si todo ha ido bien, convertimos la respuesta JSON en un array asociativo.
+            $listaCategorías = json_decode($respuestaAPI, true);
+        }
+
+        foreach ($listaCategorías as $categoría)
+        {
+            if ($categoría["idcategoria"] == $idCategoria)
             {
-                // Hay que marcar esta opción como la seleccionada.
+                // Marcamos esta opción como la seleccionada.
 ?>
-                <option value=<?php echo $datos["idcategoria"]; ?> selected>
-                    <?= $datos["descripcion"]; ?>
+                <option value=<?php echo $categoría["idcategoria"]; ?> selected>
+                    <?= $categoría["descripcion"]; ?>
                 </option>";
-<?php            
+<?php
             }
             else
             {
-                // Es una opción genérica.
+                // Se trata de una opción no seleccionada.
 ?>
-                <option value=<?= $datos["idcategoria"]; ?>>
-                    <?= $datos["descripcion"]; ?>
+                <option value=<?= $categoría["idcategoria"]; ?>>
+                    <?= $categoría["descripcion"]; ?>
                 </option>";
 <?php
             }
         }
     }
 
-    function listadoSubcategorias($idCategoria, $idSubcategoria, $conexion)
+    function listadoSubcategorias($idCategoria, $idSubcategoria)
     {
-        $consulta = "SELECT idsubcategoria, descripcion
-                     FROM subcategorias
-                     WHERE idcategoria = $idCategoria
-                     ORDER BY idsubcategoria;";
+        // Iniciamos la sesión cURL.
+        $sesion_cURL = curl_init();
 
-        $respuesta = $conexion->query($consulta);
+        // Configuración de cURL.
+        // Fijamos la URL correspondiente al endpoint de la API al cual vamos a hacer nuestra consulta.
+        curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/subcategorias/" . $idCategoria);
+        // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
+        curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
 
-        while ($datos = $respuesta->fetch_assoc()) 
+        // Ejecutamos la consulta al endpoint de la API.
+        $respuestaAPI = curl_exec($sesion_cURL);
+
+        // Comprobamos si ha habido algún error.
+        if (curl_errno($sesion_cURL))
         {
-            if ($datos["idsubcategoria"] == $idSubcategoria)
+            // Si ha habido un error, lo mostramos por pantalla.
+            echo curl_error($sesion_cURL);
+        }
+        else
+        {
+            // Si todo ha ido bien, convertimos la respuesta JSON en un array asociativo.
+            $listaSubcategorías = json_decode($respuestaAPI, true);
+        }
+
+        foreach ($listaSubcategorías as $subcategoría)
+        {
+            if ($subcategoría["idsubcategoria"] == $idSubcategoria)
             {
                 // Hay que marcar esta opción como la seleccionada.
 ?>
-                <option value=<?php echo $datos["idsubcategoria"]; ?> selected>
-                    <?= $datos["descripcion"]; ?>
+                <option value=<?php echo $subcategoría["idsubcategoria"]; ?> selected>
+                    <?= $subcategoría["descripcion"]; ?>
                 </option>";
-<?php            
+<?php 
             }
             else
             {
                 // Es una opción genérica.
 ?>
-                <option value=<?= $datos["idsubcategoria"]; ?>>
-                    <?= $datos["descripcion"]; ?>
+                <option value=<?= $subcategoría["idsubcategoria"]; ?>>
+                    <?= $subcategoría["descripcion"]; ?>
                 </option>";
 <?php
             }

@@ -87,8 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
             $respuestaAPI = curl_exec($sesion_cURL);
 
-            unlink($rutaTemporal);
-
             echo altaDeProductoCorrecta();
         }
         else
