@@ -7,6 +7,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // Comprobamos si el archivo ya existe.
     $nombreFicheroImagen = basename($_FILES["imagen"]["name"]);
 
+    // Si el nombre del archivo viene en blanco es que no se ha cambiado la imagen.
+    if ($nombreFicheroImagen == "")
+    {
+        $fichero = $_POST["imagenOriginal"];
+    }
+    else
+    {
+        // En caso contrario, guardamos el nombre del nuevo archivo de imagen.
+        $fichero = $nombreFicheroImagen;
+    }
+        
     // Actualizamos todo salvo el archivo de imagen usando nuestra API REST.
     // Iniciamos la sesión cURL.
     $sesion_cURL = curl_init();
@@ -19,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         "formato" => $_POST["formato"],
         "precio" => $_POST["precio"],
         "descuento" => $_POST["descuento"],
-        "imagen" => $_POST["imagenOriginal"]
+        "imagen" => $fichero
     ];
 
     $datosBody = json_encode($datosProducto);
@@ -45,76 +56,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
     else
     {
-        echo actualizacionCorrecta();
-    }
+        // Ahora guardamos la nueva imagen en el servidor.
+        // Si todo ha ido bien, subimos el archivo de imagen.
+        //
+        // Colocamos el archivo de imagen en una ubicación temporal.
+        $dirTemporal = "../imagenes/productos/";
+        $rutaTemporal = $dirTemporal . $nombreFicheroImagen;
 
-    // Ahora comprobamos si se ha cambiado el archivo de imagen del producto.
-    // En caso afirmativo, actualizamos su imagen en el servidor.
-    /*
-    if ($nombreFicheroImagen == "")
-    {
-    else
-    {
-        // Actualizamos todo incluido el archivo de imagen.
-        $consulta = "UPDATE productos 
-                     SET idsubcategoria=" . $_POST["subcategoria"] . 
-                         ", descripcion='" . $_POST["descripcion"] .
-                         "', formato='" . $_POST["formato"] .
-                         "', precio=" . $_POST["precio"] .
-                         ", descuento=" . $_POST["descuento"] .
-                         ", imagen='" . $nombre_archivo . "' " .
-                    "WHERE idproducto=" . $_POST["idproducto"];
-        
-        // Hacemos la actualización de los datos.
-        if ($conexion->query($consulta) == true)
+        if ($nombreFicheroImagen != "")
         {
-            echo actualizacionCorrecta();
-        }
-        else
-        {
-            echo errorAlActualizar($conexion->error);
-        }
-        
-        // Directorio donde se guardarán las imágenes.
-        $directorio_destino_imagen = "../imagenes/productos/";
-
-        // Nombre del archivo.
-        $ruta_archivo = $directorio_destino_imagen . $nombre_archivo;
-        $tipo_archivo = strtolower(pathinfo($ruta_archivo, PATHINFO_EXTENSION));
-
-        // Comprobamos si el archivo es una imagen.
-        if (isset($_FILES["imagen"]) && $_FILES["imagen"]["tmp_name"] != "")
-        {
-            $comprobar_imagen = getimagesize($_FILES["imagen"]["tmp_name"]);
-
-            if($comprobar_imagen !== false) 
+            if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaTemporal))
             {
-                // Mover el archivo de imagen al directorio destino.
-                if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_archivo))
-                {
-                    //echo "<p>Imagen subida exitosamente como: $nombre_archivo</p>";
-                    // Mostramos la imagen cargada.
-                    //echo "<img src='$ruta_archivo' alt='Imagen subida' width='350'>";
-                }
-                else
-                {
-                    echo errorAlActualizar("Error al guardar el archivo de imagen");
-                }
+                // Creamos el objeto JSON que almacenará los datos del fichero de imagen.
+                $datosFichero = [
+                    "nombreDelFichero" => basename($nombreFicheroImagen),
+                    "datosDelFichero" => base64_encode(file_get_contents($rutaTemporal))
+                ];
+
+                $datosURL = http_build_query($datosFichero);
+
+                // Reiniciamos la sesión cURL.
+                $sesion_cURL = curl_init();
+                
+                // Ejecutamos la carga del fichero en el servidor a través de la API con un archivo creado al efecto.
+                curl_setopt($sesion_cURL, CURLOPT_URL, "http://localhost:8080/cargarimagen.php");
+                // Sin cabeceras.
+                curl_setopt($sesion_cURL, CURLOPT_HEADER, false);
+                // Especificamos que se trata de una petición POST.
+                curl_setopt($sesion_cURL, CURLOPT_POST, true);
+                // En vez de mostrar por pantalla la respuesta de la API la convertimos en una cadena "interna".
+                curl_setopt($sesion_cURL, CURLOPT_RETURNTRANSFER, true);
+                // Metemos los datos del producto en el body de la petición.
+                curl_setopt($sesion_cURL, CURLOPT_POSTFIELDS, $datosURL);
+
+                $respuestaAPI = curl_exec($sesion_cURL);
+                echo actualizacionCorrecta();
             }
             else
             {
-                echo errorAlActualizar("El archivo no es una imagen válida");
+                echo "Error al mover el archivo de imagen a su ubicación temporal";
             }
         }
         else
         {
-            echo errorAlActualizar("Error al mover el archivo");
+            echo actualizacionCorrecta();
         }
-
-        //die("Archivo: {$nombre_archivo} - Hay cambio de imagen - Consulta: {$consulta}");
-    }*/
+    }
 }
 else
 {
-    echo errorAlActualizar("Acceso no permitido al script");
+    echo errorAlActualizar("Acceso al script actualizaproducto.php no permitido");
 }

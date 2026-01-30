@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         // Si todo ha ido bien, subimos el archivo de imagen.
         //
         // Colocamos el archivo de imagen en una ubicación temporal.
-        $dirTemporal = "../imagenes/productos/";
+        $dirTemporal = "../temporal/";
         $rutaTemporal = $dirTemporal . $nombreFicheroImagen;
 
         if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaTemporal))
@@ -86,8 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             curl_setopt($sesion_cURL, CURLOPT_POSTFIELDS, $datosURL);
 
             $respuestaAPI = curl_exec($sesion_cURL);
-
-            //unlink($rutaTemporal);
 
             echo altaDeProductoCorrecta();
         }
