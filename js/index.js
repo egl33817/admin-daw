@@ -19,7 +19,9 @@ function eliminarProducto(idProducto)
         if (result.isConfirmed) 
         {
             // Borrarmos el producto de la base de datos.
-            fetch("../controladores/eliminaproducto.php?idproducto=" + idProducto)
+            fetch("http://localhost:8080/productos/" + idProducto, {
+                method: "DELETE"
+            })
                 .catch(error => {
                         Swal.fire({
                             title: "Error",
