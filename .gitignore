@@ -7,5 +7,4 @@ Thumbs.db
 
 # Ignorar la carpeta que contiene las imágenes de los productos.
 # De momento se dejan para que suban a producción automáticamente desde GitHub.
-#imagenes/
-#imgproductos/
+imagenes/
